@@ -13,12 +13,13 @@ const PORT = 3000;  // Consider including process.env.PORT || for the interest o
 app.use(morgan('combined', { stream: logger.stream }));
 app.use(express.json());
 
-app.get('/', (req, res) => {res.send('This is working')})
+app.get('/', (req, res) => {res.send('Express is working')})
 app.use(router);
 
 db.then(() => {
     app.listen(PORT, () => {
     console.log(`Server running through port ${PORT}`);
 })
-});
+})
+.catch((err) => console.log(err.message)); /////////
 
