@@ -1,9 +1,16 @@
 const router = require('express').Router();
 
-const RouterMovie = require('./views/RouterMovie'); /// Look over here
-const RouterGenre = require('./views/RouterGenre');
+// Middlewares
+const auth = require('./middlewares/auth');
 
-router.use('/movies', RouterMovie);
-router.use('/genres', RouterGenre);
+//Importamos Routes definidas en views
+const MovieRouter = require('./views/MovieRouter');
+const GenreRouter = require('./views/GenreRouter');
+const UserRouter = require('./views/UserRouter');
+
+//Rutas
+router.use('/api', UserRouter); //Login and register routes
+router.use('/movies',auth, MovieRouter); //add auth
+router.use('/categories',auth, GenreRouter);
 
 module.exports = router;
