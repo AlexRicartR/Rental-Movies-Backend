@@ -22,3 +22,25 @@ CategoryController.getAll = (req, res) => {
         });
       });
   };
+
+  //-------------------------------------------------------------------------------------
+//GET categories by Id from database
+CategoryController.getById = (req, res) => {
+    const id = req.params.id;
+  
+    category.findByPk(id)
+      .then(data => {
+        if (data) {
+          res.send(data);
+        } else {
+          res.status(404).send({
+            message: `Cannot find Category with id=${id}.`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error retrieving categories with id=" + id
+        });
+      });
+  };
