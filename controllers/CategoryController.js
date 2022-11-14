@@ -1,14 +1,10 @@
-//Importo modelo de datos
 const db = require("../models");
 const category = db.category;
-const Op = db.Sequelize.Op; //Import all ORM sequelize functions 
+const Op = db.Sequelize.Op; 
 
-const CategoryController = {}; //Create the object controller
+const CategoryController = {}; 
 
 
-//CRUD end-points Functions
-//-------------------------------------------------------------------------------------
-//GET all categories from database
 CategoryController.getAll = (req, res) => {
     const type = req.query.type;
     var condition = type ? { type: { [Op.like]: `%${type}%` } } : null;
@@ -25,9 +21,6 @@ CategoryController.getAll = (req, res) => {
       });
   };
 
-
-//-------------------------------------------------------------------------------------
-//GET categories by Id from database
 CategoryController.getById = (req, res) => {
     const id = req.params.id;
   
@@ -48,11 +41,7 @@ CategoryController.getById = (req, res) => {
       });
   };
 
-
-//-------------------------------------------------------------------------------------
-//CREATE a new category in database
 CategoryController.create = (req, res) => {
-    // Validate request
     if (!req.body.type) {
       res.status(400).send({
         message: "Content can not be empty!"
@@ -60,13 +49,11 @@ CategoryController.create = (req, res) => {
       return;
     }
   
-    // Create a Category
     const newCategory = {
       type: req.body.type,
       age: req.body.age
     };
   
-    // Save Category in the database
     category.create(newCategory)
       .then(data => {
         res.send(data);
@@ -79,9 +66,6 @@ CategoryController.create = (req, res) => {
       });
   };
 
-
-//-------------------------------------------------------------------------------------
-//UPDATE a category from database
 CategoryController.update = (req, res) => {
     const id = req.params.id;
   
@@ -106,10 +90,6 @@ CategoryController.update = (req, res) => {
       });
   };
 
-
-//-------------------------------------------------------------------------------------
-//GET categories by Type from database  
-//FindByType
 CategoryController.getByType = (req, res) => {
     category.findAll({ where: { type: req.params.type } })
       .then(data => {
@@ -123,9 +103,6 @@ CategoryController.getByType = (req, res) => {
       });
   };
 
-
-//-------------------------------------------------------------------------------------
-//DELETE a category by Id from database
 CategoryController.delete = (req, res) => {
     const id = req.params.id;
   
@@ -151,9 +128,6 @@ CategoryController.delete = (req, res) => {
   };
 
 
-//-------------------------------------------------------------------------------------
-//DELETE all categories from database
-//delete all categories   
 CategoryController.deleteAll = (req, res) => {
     category.destroy({
       where: {},
