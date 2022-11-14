@@ -1,5 +1,4 @@
-// Creating movie controller. First step: import data model. 
-
+//Importo modelo de datos
 const db = require("../models");
 const movies = db.movie;
 const Op = db.Sequelize.Op; //Import all ORM sequelize functions 
@@ -8,10 +7,11 @@ var categoryModel  = require('../models').category;  //Add for dependency respon
 
 const MovieController = {}; //Create the object controller
 
+
+
 //CRUD end-points Functions
-
+//-------------------------------------------------------------------------------------
 //GET all movies from database
-
 MovieController.getAll = (req, res) => {
     
     movies.findAll({include: [{ model:categoryModel}]})
@@ -21,13 +21,14 @@ MovieController.getAll = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Unable to retrieve movies, an error ocurred."
+            err.message || "Some error occurred while retrieving movies."
         });
       });
   };
 
-//GET movies by Id from database
 
+//-------------------------------------------------------------------------------------
+//GET movies by Id from database
 MovieController.getById = (req, res) => {
     const id = req.params.id;
 
@@ -37,26 +38,26 @@ MovieController.getById = (req, res) => {
           res.send(data);
         } else {
           res.status(404).send({
-            message: `Unable to find movies with id=${id}.`
+            message: `Cannot find movie with id=${id}.`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Unable to find movies with id=" + id
+          message: "Error retrieving movies with id=" + id
         });
       });
   };
 
 
 
+//-------------------------------------------------------------------------------------
 //CREATE a new movie in database
-
 MovieController.create = (req, res) => {
     // Validate request
     if (!req.body.title) {
       res.status(400).send({
-        message: "Please fulfil the content."
+        message: "Content can not be empty!"
       });
       return;
     }
@@ -75,12 +76,13 @@ MovieController.create = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Unable to create movie(s), an error ocurred."
+            err.message || "Some error occurred while creating the Movie."
         });
       });
   };
 
 
+//-------------------------------------------------------------------------------------
 //UPDATE a movie from database
 MovieController.update = (req, res) => {
     const id = req.params.id;
@@ -91,24 +93,25 @@ MovieController.update = (req, res) => {
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Movie information has been updated succesfully."
+            message: "Movie was updated successfully."
           });
         } else {
           res.send({
-            message: `Unable to update movie with id=${id}.`
+            message: `Cannot update Movie with id=${id}. Maybe Movie was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Unable to update movie with id=" + id
+          message: "Error updating Movie with id=" + id
         });
       });
   };
 
+
+//-------------------------------------------------------------------------------------
 //GET movie by Title from database 
 //FindByTitle
-
   MovieController.getByTitle = (req, res) => {
     movies.findAll({ where: { title: req.params.title } })
       .then(data => {
@@ -122,6 +125,8 @@ MovieController.update = (req, res) => {
       });
   };
 
+
+//-------------------------------------------------------------------------------------
 //DELETE a movie by Id from database
 MovieController.delete = (req, res) => {
     const id = req.params.id;
@@ -132,37 +137,37 @@ MovieController.delete = (req, res) => {
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Movie was removed successfully."
+            message: "Movie was deleted successfully!"
           });
         } else {
           res.send({
-            message: `Unable to remove movie with id=${id}. Maybe Movie was not found!`
+            message: `Cannot delete Movie with id=${id}. Maybe Movie was not found!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Unable to remove movie with id=" + id
+          message: "Could not delete Movie with id=" + id
         });
       });
   };
 
 
+//-------------------------------------------------------------------------------------
 //DELETE all movies from database
 //delete all movies 
-
   MovieController.deleteAll = (req, res) => {
     movies.destroy({
       where: {},
       truncate: false
     })
       .then(nums => {
-        res.send({ message: `${nums} movies have been deleted successfully.` });
+        res.send({ message: `${nums} Movies were deleted successfully!` });
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Unable to remove all movies. An error occurred during the process."
+            err.message || "Some error occurred while removing all movies."
         });
       });
   };

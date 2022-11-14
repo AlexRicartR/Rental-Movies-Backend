@@ -1,15 +1,18 @@
+/// Internal comment: Add comments regarding each const and which functionality has. 
+
+
 const express = require('express');
 const colors = require('colors');
 const morgan = require('morgan');
+const router = require('./router.js');
+const cors = require("cors"); 
 const logger = require('./config/winston');
 const db = require('./db.js');
-const router = require('./router.js');
-const cors = require("cors"); // Import cors module
+
 
 const app = express();
-const PORT = process.env.PORT || 3000; //Configuramos puerto heroku
+const PORT = process.env.PORT || 3000; 
 
-//Config Cors Options
 var corsOptions = {
     origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -17,18 +20,15 @@ var corsOptions = {
     optionsSuccessStatus: 204
   };
 
-//Middleware
 app.use(morgan('combined', { stream: logger.stream }));
 app.use(express.json());
-app.use(cors(corsOptions)); //Add CORS Middleware
+app.use(cors(corsOptions)); 
 
-//Rutas
-app.get('/', (req, res) => {res.send('Bienvenidos a Express');});
+
+app.get('/', (req, res) => {res.send('Express is working');});
 app.use(router);
 
-//Connecting to the database
 db.then(()=>{
-    //Starting server
-        app.listen(PORT, ()=> console.log(`Server on port ${PORT}`.bgGreen.black));
+        app.listen(PORT, ()=> console.log(`Server running through port ${PORT}`.bgYellow.black));
     })
-    .catch((err)=> console.log(err.message));   
+    .catch((err)=> console.log(err.message));

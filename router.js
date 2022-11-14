@@ -1,16 +1,17 @@
+
+
+
 const router = require('express').Router();
 
-// Middlewares
 const auth = require('./middlewares/auth');
 
-//Importamos Routes definidas en views
+//Importing routes as set forth in the views folder
 const MovieRouter = require('./views/MovieRouter');
-const GenreRouter = require('./views/GenreRouter');
+const CategoryRouter = require('./views/CategoryRouter');
 const UserRouter = require('./views/UserRouter');
 
-//Rutas
-router.use('/api', UserRouter); //Login and register routes
-router.use('/movies',auth, MovieRouter); //add auth
-router.use('/categories',auth, GenreRouter);
+router.use('/api', UserRouter); 
+router.use('/movies',auth, MovieRouter); 
+router.use('/categories',auth, CategoryRouter);
 
 module.exports = router;

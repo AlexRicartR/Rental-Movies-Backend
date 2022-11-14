@@ -1,8 +1,10 @@
+//Importo modelo de datos
 const db = require("../models");
 const category = db.category;
 const Op = db.Sequelize.Op; //Import all ORM sequelize functions 
 
 const CategoryController = {}; //Create the object controller
+
 
 //CRUD end-points Functions
 //-------------------------------------------------------------------------------------
@@ -23,7 +25,8 @@ CategoryController.getAll = (req, res) => {
       });
   };
 
-  //-------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------
 //GET categories by Id from database
 CategoryController.getById = (req, res) => {
     const id = req.params.id;
@@ -45,7 +48,8 @@ CategoryController.getById = (req, res) => {
       });
   };
 
-  //-------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------
 //CREATE a new category in database
 CategoryController.create = (req, res) => {
     // Validate request

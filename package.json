@@ -1,5 +1,5 @@
 {
-  "name": "rental-movies-backend",
+  "name": "pruebanuevorental",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,26 +8,23 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AlexRicartR/Rental-Movies-Backend.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/AlexRicartR/Rental-Movies-Backend/issues"
-  },
-  "homepage": "https://github.com/AlexRicartR/Rental-Movies-Backend#readme",
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "express": "4.18.2",
+    "bcrypt": "^5.1.0",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "init": "^0.1.2",
+    "jsonwebtoken": "^8.5.1",
+    "logger": "^0.0.1",
     "morgan": "^1.10.0",
-    "mysql": "2.18.1",
-    "mysql2": "2.3.3",
-    "nodemon": "2.0.20",
-    "sequelize": "6.25.5",
-    "sequelize-cli": "6.5.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20",
+    "sequelize": "^6.25.5",
+    "sequelize-cli": "^6.5.2",
     "winston": "^3.8.2"
   }
 }
