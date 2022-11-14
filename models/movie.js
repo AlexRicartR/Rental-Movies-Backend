@@ -1,3 +1,5 @@
+
+
 'use strict';
 const {Model} = require('sequelize');
 const category = require('./category');
