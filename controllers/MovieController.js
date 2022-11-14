@@ -1,17 +1,12 @@
-//Importo modelo de datos
 const db = require("../models");
 const movies = db.movie;
-const Op = db.Sequelize.Op; //Import all ORM sequelize functions 
+const Op = db.Sequelize.Op; 
 
-var categoryModel  = require('../models').category;  //Add for dependency response
+var categoryModel  = require('../models').category;  
 
-const MovieController = {}; //Create the object controller
+const MovieController = {}; 
 
 
-
-//CRUD end-points Functions
-//-------------------------------------------------------------------------------------
-//GET all movies from database
 MovieController.getAll = (req, res) => {
     
     movies.findAll({include: [{ model:categoryModel}]})
