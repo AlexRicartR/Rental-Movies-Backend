@@ -21,9 +21,6 @@ MovieController.getAll = (req, res) => {
       });
   };
 
-
-//-------------------------------------------------------------------------------------
-//GET movies by Id from database
 MovieController.getById = (req, res) => {
     const id = req.params.id;
 
@@ -44,12 +41,7 @@ MovieController.getById = (req, res) => {
       });
   };
 
-
-
-//-------------------------------------------------------------------------------------
-//CREATE a new movie in database
 MovieController.create = (req, res) => {
-    // Validate request
     if (!req.body.title) {
       res.status(400).send({
         message: "Content can not be empty!"
@@ -57,13 +49,11 @@ MovieController.create = (req, res) => {
       return;
     }
   
-    // Create a Movies
     const newMovie = {
       title: req.body.title,
       categoryId: req.body.categoryId
     };
   
-    // Save Movies in the database
     movies.create(newMovie)
       .then(data => {
         res.send(data);
@@ -76,9 +66,6 @@ MovieController.create = (req, res) => {
       });
   };
 
-
-//-------------------------------------------------------------------------------------
-//UPDATE a movie from database
 MovieController.update = (req, res) => {
     const id = req.params.id;
   
@@ -103,10 +90,6 @@ MovieController.update = (req, res) => {
       });
   };
 
-
-//-------------------------------------------------------------------------------------
-//GET movie by Title from database 
-//FindByTitle
   MovieController.getByTitle = (req, res) => {
     movies.findAll({ where: { title: req.params.title } })
       .then(data => {
@@ -121,8 +104,6 @@ MovieController.update = (req, res) => {
   };
 
 
-//-------------------------------------------------------------------------------------
-//DELETE a movie by Id from database
 MovieController.delete = (req, res) => {
     const id = req.params.id;
   
@@ -147,10 +128,6 @@ MovieController.delete = (req, res) => {
       });
   };
 
-
-//-------------------------------------------------------------------------------------
-//DELETE all movies from database
-//delete all movies 
   MovieController.deleteAll = (req, res) => {
     movies.destroy({
       where: {},
