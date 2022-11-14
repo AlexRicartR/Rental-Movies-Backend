@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-//Importo modelo de datos
 const CategoryController = require('../controllers/CategoryController');
 
-// End-points CRUD movies
+// Endpoints for CRUD are herein stated
 router.get('/', CategoryController.getAll);
 router.get('/:id', CategoryController.getById);
 router.get('/type/:type', CategoryController.getByType);
