@@ -74,6 +74,18 @@ module.exports = {
         categoryId : 1,
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        title : "Hangover",
+        categoryId : 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title : "The Godfather 2",
+        categoryId : 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ], {});
   },
