@@ -1,8 +1,8 @@
 //// To be set forth according to last lesson as scheduled. 
 
 
-module.exports = {
-    secret: process.env.AUTH_SECRET || "trololo",
-    expires: process.env.AUTH_EXPIRES || "24h",
-    rounds: process.env.AUTH_ROUNDS || 10
-}
+// module.exports = {
+//     secret: process.env.AUTH_SECRET || "trololo",
+//     expires: process.env.AUTH_EXPIRES || "24h",
+//     rounds: process.env.AUTH_ROUNDS || 10
+// }

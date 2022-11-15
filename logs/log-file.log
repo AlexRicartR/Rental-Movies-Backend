@@ -1,3 +1,11 @@
 {"level":"info","message":"::ffff:127.0.0.1 - - [13/Nov/2022:19:17:04 +0000] \"GET /categories HTTP/1.1\" 401 30 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-13T19:17:04.098Z"}
 {"level":"info","message":"::ffff:127.0.0.1 - - [13/Nov/2022:19:25:14 +0000] \"POST /categories HTTP/1.1\" 401 30 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-13T19:25:14.300Z"}
 {"level":"info","message":"::ffff:127.0.0.1 - - [13/Nov/2022:19:25:34 +0000] \"POST /categories HTTP/1.1\" 500 118 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-13T19:25:34.776Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [15/Nov/2022:18:55:15 +0000] \"GET /categories HTTP/1.1\" 401 30 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-15T18:55:15.238Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [15/Nov/2022:18:56:45 +0000] \"GET /categories HTTP/1.1\" 200 1007 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-15T18:56:45.390Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [15/Nov/2022:18:58:06 +0000] \"GET /movies HTTP/1.1\" 200 3550 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-15T18:58:06.167Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [15/Nov/2022:18:58:10 +0000] \"GET /series HTTP/1.1\" 404 145 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-15T18:58:10.581Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [15/Nov/2022:18:58:14 +0000] \"GET /serie HTTP/1.1\" 404 144 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-15T18:58:14.334Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [15/Nov/2022:18:59:23 +0000] \"GET /serie HTTP/1.1\" 404 144 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-15T18:59:23.900Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [15/Nov/2022:18:59:25 +0000] \"GET /serie HTTP/1.1\" 404 144 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-15T18:59:25.089Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [15/Nov/2022:18:59:32 +0000] \"GET /series HTTP/1.1\" 200 3469 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n","timestamp":"2022-11-15T18:59:32.285Z"}

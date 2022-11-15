@@ -10,9 +10,11 @@ const auth = require('./middlewares/auth');
 const MovieRouter = require('./views/MovieRouter');
 const CategoryRouter = require('./views/CategoryRouter');
 const UserRouter = require('./views/UserRouter');
+const SerieRouter = require('./views/SerieRouter');
 
 router.use('/api', UserRouter); 
-router.use('/movies',auth, MovieRouter); 
-router.use('/categories',auth, CategoryRouter);
+router.use('/movies', MovieRouter); 
+router.use('/categories', CategoryRouter);
+router.use('/series', SerieRouter);
 
 module.exports = router;
