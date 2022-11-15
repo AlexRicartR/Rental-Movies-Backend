@@ -16,7 +16,7 @@ MovieController.getAll = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving movies."
+            err.message || "Unable to retrieve movies"
         });
       });
   };
@@ -30,13 +30,13 @@ MovieController.getById = (req, res) => {
           res.send(data);
         } else {
           res.status(404).send({
-            message: `Cannot find movie with id=${id}.`
+            message: `Unable to find movie with id=${id}.`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving movies with id=" + id
+          message: "Unable to retrieve movies with id=" + id
         });
       });
   };
@@ -44,7 +44,7 @@ MovieController.getById = (req, res) => {
 MovieController.create = (req, res) => {
     if (!req.body.title) {
       res.status(400).send({
-        message: "Content can not be empty!"
+        message: "Please ensure to fulfil the information."
       });
       return;
     }
@@ -61,7 +61,7 @@ MovieController.create = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the Movie."
+            err.message || "Unable to create the movie."
         });
       });
   };
@@ -75,7 +75,7 @@ MovieController.update = (req, res) => {
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Movie was updated successfully."
+            message: "Movie has been updated successfully."
           });
         } else {
           res.send({
