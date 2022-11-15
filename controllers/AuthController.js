@@ -3,21 +3,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth');
 
-const AuthController = {}; //Create the object controller
+const AuthController = {}; 
 
-//-------------------------------------------------------------------------------------
-//Login user with database
-//get user
+
 AuthController.signIn = (req, res) =>{
         let { email, password } = req.body;
-        // Buscar usuario
         user.findOne({ where: { email: email }
         }).then(user => {
             if (!user) {
-                res.status(404).json({ msg: "Usuario con este correo no encontrado" });
+                res.status(404).json({ msg: "This email does not belong to any registered user" });
             } else {
                 if (bcrypt.compareSync(password, user.password)) {
-                    // Creamos el token
                     let token = jwt.sign({ user: user }, authConfig.secret, {
                         expiresIn: authConfig.expires
                     });
@@ -27,8 +23,7 @@ AuthController.signIn = (req, res) =>{
                         token: token
                     })
                 } else {
-                    // Unauthorized Access
-                    res.status(401).json({ msg: "Contraseña incorrecta" })
+                    res.status(401).json({ msg: "Wrong password" })
                 }
             }
         }).catch(err => {
@@ -36,23 +31,16 @@ AuthController.signIn = (req, res) =>{
         })
     };
 
-
-//-------------------------------------------------------------------------------------
-//REGISTER new user in database
-//create user
 AuthController.signUp = (req, res)=> {
 
-        // Encriptamos la contraseña
         let password = bcrypt.hashSync(req.body.password, Number.parseInt(authConfig.rounds));
 
-        // Crear un usuario
         user.create({
             name: req.body.name,
             email: req.body.email,
             password: password
         }).then(user => {
 
-            // Creamos el token
             let token = jwt.sign({ user: user }, authConfig.secret, {
                 expiresIn: authConfig.expires
             });
