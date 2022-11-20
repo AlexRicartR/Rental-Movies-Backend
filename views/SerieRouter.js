@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const SerieController = require('../controllers/SerieController');
+const SerieController = require('../controllers/serieController');
 
 // Endpoints for CRUD are herein stated
 router.get('/', SerieController.getAll);

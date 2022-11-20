@@ -1,145 +1,89 @@
-const db = require("../models");
-const series = db.serie;
-const Op = db.Sequelize.Op;
+const models = require('../models/index');
 
-var categoryModel  = require('../models').category;  
+const serieController = {};
 
-const SerieController = {}; 
 
-SerieController.getAll = (req, res) => {
-    
-    series.findAll({include: [{ model:categoryModel}]})
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Unable to retrieve series."
-        });
-      });
-  };
-
-SerieController.getById = (req, res) => {
-    const id = req.params.id;
-
-    series.findByPk(id, {include: [{ model:categoryModel}]})
-      .then(data => {
-        if (data) {
-          res.send(data);
-        } else {
-          res.status(404).send({
-            message: `Unable to find serie with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Unable to retrie serie with id=" + id
-        });
-      });
-  };
-
-SerieController.create = (req, res) => {
-    if (!req.body.title) {
-      res.status(400).send({
-        message: "Please ensure to fulfil the information."
-      });
-      return;
+serieController.getSerie1 = async (req, res) => {
+    try {
+        let resp = await models.items.findAll({
+            where: { type: 'Serie' },
+            order: [
+                ["score", 'DESC']
+            ]
+        })
+        res.send(resp);
+    } catch (err) {
+        res.send(err)
     }
-  
-    const newSerie = {
-      title: req.body.title,
-      categoryId: req.body.categoryId
-    };
-  
-    series.create(newSerie)
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Unable to create the serie."
-        });
-      });
-  };
 
-SerieController.update = (req, res) => {
-    const id = req.params.id;
-  
-    series.update(req.body, {
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "Serie has been updated successfully."
-          });
-        } else {
-          res.send({
-            message: `Unable to update serie with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Unable to update serie with id=" + id
-        });
-      });
-  };
+};
 
-  SerieController.getByTitle = (req, res) => {
-    series.findAll({ where: { title: req.params.title } })
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Unable to retrieve series."
-        });
-      });
-  };
+serieController.getSerie2 = async (req, res) => {
+    try {
+        let id = req.params.id
+        let resp = await models.series.findAll(
+            {
+                where: { id_serie: id },
+                include: {
+                    model: models.items,
+                    attributes: ['name', 'description']
+                }
+            }
+        )
+        res.send(resp)
+    } catch (err) {
+        res.send(err)
+    }
 
-SerieController.delete = (req, res) => {
-    const id = req.params.id;
-  
-    series.destroy({
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "Serie has been removed successfully!"
-          });
-        } else {
-          res.send({
-            message: `Unable to remove serie with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete serie with id=" + id
-        });
-      });
-  };
+};
 
-  SerieController.deleteAll = (req, res) => {
-    series.destroy({
-      where: {},
-      truncate: false
-    })
-      .then(nums => {
-        res.send({ message: `${nums} series have been removed successfully.` });
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Unable to delete all series."
-        });
-      });
-  };
+serieController.getSerie3 = async (req, res) => {
+    try {
+        let name = req.params.name;
+        let resp = await models.items.findAll(
+            {
+                where: {
+                    name: name,
+                    type: 'Serie'
+                }
+            }
+        )
+        res.send(resp);
+    } catch (err) {
+        res.send(err)
+    }
 
-module.exports = SerieController;
+};
+const sequelize = require('../db/db')
+const { Sequelize } = require('sequelize')
+
+/* Functional requirement: 
+Get series that will have an episode broadcasted in the following 7 days. */
+
+let date = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate() + 7}`  
+const { Op } = require("sequelize");
+
+serieController.getSerie4 = async (req, res) => {
+    let resp = await sequelize.query("SELECT * FROM railway.series where next_episode BETWEEN (CURDATE()) and (CURDATE() + INTERVAL 7 DAY)");
+    res.send(resp);
+};
+
+serieController.getSerie5 = async (req, res) => {
+    try {
+        let resp = await models.series.findAll(
+            {
+                where: { permit: true },
+                include: {
+                    model: models.items,
+                    attributes: ['name', 'description']
+                }
+            }
+        )
+        res.send(resp);
+    } catch (err) {
+        res.send(err)
+    }
+
+};
+
+module.exports = serieController;

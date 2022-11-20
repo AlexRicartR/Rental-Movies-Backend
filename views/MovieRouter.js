@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const MovieController = require('../controllers/MovieController');
+const MovieController = require('../controllers/filmController');
 
 // Endpoints for CRUD are herein stated
 router.get('/', MovieController.getAll);
