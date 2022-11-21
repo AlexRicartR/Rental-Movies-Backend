@@ -3,7 +3,7 @@
 
 const router = require('express').Router();
 
-const auth = require('./middlewares/auth');
+const auth = require('./middlewares/auth.middleware');
 
 //Importing routes as set forth in the views folder
 
