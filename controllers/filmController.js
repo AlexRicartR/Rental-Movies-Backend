@@ -13,7 +13,7 @@ filmController.getFilm1 = async (req, res) => {
             },
             where: { type: 'Film' },
             order: [
-                ["score", 'DESC']
+                ["rating", 'DESC']
             ],
         }) 
         res.send(resp);
@@ -33,7 +33,7 @@ filmController.getFilm2 = async (req, res) => {
             where: { id_film: id },
             include: {
                 model: models.items,
-                attributes: ['name', 'description']
+                attributes: ['name']
             }
 
         })
@@ -74,7 +74,7 @@ filmController.getFilm4 = async (req, res) => {
             where: { genre: genreM },
             include: {
                 model: models.items,
-                attributes: ['name', 'score', 'description', 'data_premiere']
+                attributes: ['name', 'rating', 'release_date']
             }
 
         })

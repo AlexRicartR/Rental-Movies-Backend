@@ -8,7 +8,7 @@ serieController.getSerie1 = async (req, res) => {
         let resp = await models.items.findAll({
             where: { type: 'Serie' },
             order: [
-                ["score", 'DESC']
+                ["rating", 'DESC']
             ]
         })
         res.send(resp);
@@ -26,7 +26,7 @@ serieController.getSerie2 = async (req, res) => {
                 where: { id_serie: id },
                 include: {
                     model: models.items,
-                    attributes: ['name', 'description']
+                    attributes: ['name']
                 }
             }
         )
@@ -72,10 +72,10 @@ serieController.getSerie5 = async (req, res) => {
     try {
         let resp = await models.series.findAll(
             {
-                where: { permit: true },
+                where: { permission: true },
                 include: {
                     model: models.items,
-                    attributes: ['name', 'description']
+                    attributes: ['name']
                 }
             }
         )

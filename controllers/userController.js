@@ -54,8 +54,7 @@ userController.userPost = async (req, res) => {
                     {
                         name: body.name,
                         email: body.email,
-                        dateBirth: body.dateBirth,
-                        phone: body.phone,
+                        birthDate: body.birthDate,
                         password: hash,
                         id_usertype: body.id_usertype
 
@@ -139,8 +138,7 @@ userController.updatedUser = async (req, res) => {
                 {
                     name: user.name,
                     email: user.email,
-                    dateBirth: user.dateBirth,
-                    phone: user.phone
+                    birthDate: user.birthDate,
                 },
                 {
                     where: { user_id: id }
