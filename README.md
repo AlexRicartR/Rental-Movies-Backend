@@ -49,6 +49,7 @@ INSERT IMAGE
 
 #### Create user:
 POST - localhost:3000/users/createUser – 
+```
 {
     "user_id": 3,
     "name": "user2",
@@ -58,6 +59,7 @@ POST - localhost:3000/users/createUser –
     "password": "Password1",
     "id_usertype": 2
 }
+```
 
 #### Login:
 POST - localhost:3000/users/loginUser – 
