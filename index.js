@@ -1,35 +1,22 @@
 const express = require('express');
-
-/// Colors dependency is intended to provide features such as colors in the node.js console.
-const colors = require('colors');
-/// Morgan depency is a HTTP request logger middleware for node.js
-const morgan = require('morgan');
-const router = require('./router.js');
-const cors = require("cors"); 
-/// Winston is intended to be a logging library with support for multiple transports which basically operates as a storage device for the logs.
-const logger = require('./config/winston');
-const db = require('./db.js');
-
-
 const app = express();
-const PORT = process.env.PORT || 3000; 
+const db = require('./db/db');
+const router = require('./router');
+const morgan = require('morgan');
+const colors = require('colors');
+const { sequelize } = require('./models/index')
+const PORT = 3000;
+require('dotenv').config({path:'.env'})
 
-var corsOptions = {
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: false,
-    optionsSuccessStatus: 204
-  };
-
-app.use(morgan('combined', { stream: logger.stream }));
 app.use(express.json());
-app.use(cors(corsOptions)); 
-
-
-app.get('/', (req, res) => {res.send('Express is working');});
 app.use(router);
+app.use(morgan('dev'));
 
-db.then(()=>{
-        app.listen(PORT, ()=> console.log(`Server running through port ${PORT}`.bgYellow.black));
+app.listen(PORT, () => {
+    console.log(`Server running through port ${PORT}`.bgYellow.black);
+    db.authenticate().then(() => {
+        console.log("Successfully connected to the database")
+    }).catch(error => {
+        console.log('Error: ' + error)
     })
-    .catch((err)=> console.log(err.message));
+});
