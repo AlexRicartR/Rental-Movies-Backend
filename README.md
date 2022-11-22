@@ -55,7 +55,6 @@ POST - localhost:3000/users/createUser –
     "name": "user2",
     "email": "user2@user2.com",
     "birthDate": "1950-06-01",
-    "phone": "689897125",
     "password": "Password1",
     "id_usertype": 2
 }
@@ -79,7 +78,6 @@ PUT - localhost:3000/users/updateUser/1 -
     "name": "John Doe",
     "email": "john@doe.com",
     "birthDate": "1992-09-06",
-    "phone": "689758632"
 }
 ```
 
