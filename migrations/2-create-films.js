@@ -1,3 +1,5 @@
+
+
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -21,7 +23,6 @@ module.exports = {
         onDelete: 'cascade',
         onUpdate: 'cascade'
       },
-      // itemIdItem: Sequelize.INTEGER
     });
   },
   async down(queryInterface, Sequelize) {
