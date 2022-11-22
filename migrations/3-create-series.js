@@ -12,7 +12,7 @@ module.exports = {
       next_episode: {
         type: Sequelize.DATEONLY
       },
-      permit: {
+      permission: {
         type: Sequelize.BOOLEAN
       },
       item_id: {

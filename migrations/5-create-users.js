@@ -16,13 +16,9 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true
       },
-      dateBirth: {
+      birthDate: {
         type: Sequelize.DATEONLY
       } ,
-      phone: {
-        type: Sequelize.STRING,
-        unique: true
-      },
       password: {
         type: Sequelize.STRING,
         allowNull: false
