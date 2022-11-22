@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     next_episode: DataTypes.DATEONLY,
-    permit: DataTypes.BOOLEAN,
+    permission: DataTypes.BOOLEAN,
     // item_id: {
     //   type: DataTypes.INTEGER,
     //   allowNull: false

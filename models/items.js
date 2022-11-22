@@ -31,9 +31,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
-    score: DataTypes.DECIMAL(10,1),
-    description: DataTypes.TEXT,
-    data_premiere: DataTypes.DATEONLY,
+    rating: DataTypes.DECIMAL(10,1),
+    release_date: DataTypes.DATEONLY,
     type: DataTypes.ENUM('Film', 'Serie')
   },
     {

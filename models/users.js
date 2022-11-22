@@ -18,13 +18,6 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       )
-      // User.belongsToMany(models.roles,
-      //   {
-      //     foreignKey: {
-      //       name: "userTypeName"
-      //     }
-      //   }
-      // );
     }
   }
   User.init({
@@ -39,11 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
-    dateBirth: DataTypes.DATEONLY,
-    phone: {
-      type: DataTypes.STRING,
-      unique: true
-    },
+    birthDate: DataTypes.DATEONLY,
     password: {
       type: DataTypes.STRING,
       allowNull: false

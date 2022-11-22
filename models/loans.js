@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       })
-      // Loan.hasOne(models.loans_items);
     }
   }
   Loan.init({
