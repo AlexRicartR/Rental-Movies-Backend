@@ -63,20 +63,25 @@ POST - localhost:3000/users/createUser –
 
 #### Login:
 POST - localhost:3000/users/loginUser – 
+
+```
 {
     "email": "admin@admin.com",
     "password": "Bootcamp2022"
 
 }
+```
 
 #### Update user:
 PUT - http://localhost:3000/users/updateUser/1 - 
+```
 {
     "name": "John Doe",
     "email": "john@doe.com",
     "birthDate": "1992-09-06",
     "phone": "689758632"
 }
+```
 
 #### Delete user (Only admin):
 DELETE - http://localhost:3000/users/deleteUser
@@ -107,11 +112,12 @@ GET - localhost:3000/series/seriePermit
 #### Loans
 
 POST - localhost:3000/loans/newLoan/:id
-
+```
 {
      "email": "user@user.com",
      "itemIdItem": 5
 }
+```
 
 GET - localhost:3000/loans/loansUser/:idUser 
 
