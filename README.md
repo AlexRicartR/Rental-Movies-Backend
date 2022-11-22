@@ -73,7 +73,7 @@ POST - localhost:3000/users/loginUser –
 ```
 
 #### Update user:
-PUT - http://localhost:3000/users/updateUser/1 - 
+PUT - localhost:3000/users/updateUser/1 - 
 ```
 {
     "name": "John Doe",
@@ -84,17 +84,17 @@ PUT - http://localhost:3000/users/updateUser/1 -
 ```
 
 #### Delete user (Only admin):
-DELETE - http://localhost:3000/users/deleteUser
+DELETE - localhost:3000/users/deleteUser 
 
 #### Films
 
-GET - http://localhost:3000/films/topRatedFilm
+GET - localhost:3000/films/topRatedFilm 
 
-GET - http://localhost:3000/films/filmById/5 
+GET - localhost:3000/films/filmById/5 
 
-GET - http://localhost:3000/films/filmByName/Se7en 
+GET - localhost:3000/films/filmByName/Se7en 
 
-GET - http://localhost:3000/films/filmByGenre/action 
+GET - localhost:3000/films/filmByGenre/action 
 
 #### Series
 
