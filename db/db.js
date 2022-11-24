@@ -1,6 +1,5 @@
 /// DB relocated from the root path
 
-const config = require('../config/config.json')
 const { Sequelize } = require('sequelize')
 require('dotenv').config()
 

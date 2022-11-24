@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   UserType.init({
-    id_rol: {
+    id_usertype: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,

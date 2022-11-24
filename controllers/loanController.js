@@ -7,24 +7,24 @@ loanController.newLoan = async (req, res) => {
     try {
         const { email } = req.body
         const locateUser = await models.users.findAll({ where: { email: email } })
-        let dataUser = locateUser.map(user => user.contentData)
-        let userObject = dataUser.map(id => id.user_id)
+        let dataUser = locateUser.map(user => user.dataValues)
+        let userObject = dataUser.map(id => id.id_user)
         let loan = await models.loans.create(
             {
-                user_id: userObject[0]
+                id_user: userObject[0]
             }
         )
         if (Number(id.id) === userObject[0]) {
-            let loanId = loan.contentData.loan_id;
+            let loanId = loan.dataValues.loan_id;
             const recentLoan = await models.loans.findAll({ where: { loan_id: loanId } })
-            let loanMap = recentLoan.map(loan => loan.contentData)
+            let loanMap = recentLoan.map(loan => loan.dataValues)
             let idLoan = loanMap.map(id => id.loan_id)
             let item = req.body;
             let itemsArray = item.itemIdItem;
             let loanItems = [];
-            for (itm of itemsArray) {
+            for (singleitem of itemsArray) {
                 let itemLoan = await models.loans_items.create({
-                    itemIdItem: itm,
+                    itemIdItem: singleitem,
                     loan_id: idLoan[0]
                 })
                 loanItems.push(itemLoan);
@@ -46,11 +46,11 @@ loanController.loansUser = async (req, res) => {
     try {
         const { email } = req.body
         const locateUser = await models.users.findAll({ where: { email: email } })
-        let dataUser = locateUser.map(user => user.contentData)
-        let userObject = dataUser.map(id => id.user_id)
+        let dataUser = locateUser.map(user => user.dataValues)
+        let userObject = dataUser.map(id => id.id_user)
         let loan = await models.loans.create(   ///// Check this line 
             {
-                user_id: userObject[0]
+                id_user: userObject[0]
             }
         )
         if (Number(idUser.idUser) === userObject[0]) {
@@ -58,9 +58,9 @@ loanController.loansUser = async (req, res) => {
                 attributes: {
                     exclude: ['loanIdLoan', 'itemIdItem', 'loanItemIdLoanItem']
                 },
-                where: { user_id: idUser.idUser }
+                where: { id_user: idUser.idUser }
             })
-            let activeLoans = loans.map(rent => rent.contentData)
+            let activeLoans = loans.map(rent => rent.dataValues)
             let loanIdentifiers = activeLoans.map(id => id.loan_id)
             let itLoan = await models.loans_items.findAll(
                 {
@@ -87,11 +87,11 @@ loanController.loanUpdate = async (req, res) => {
     try {
         let fullLoanList = await models.loans.findAll({
             where: {
-                user_id: idUser.idUser,
+                id_user: idUser.idUser,
                 loan_id: loanId.loanId
             }
         })
-        let rent = fullLoanList.map(rent => rent.contentData)
+        let rent = fullLoanList.map(rent => rent.dataValues)
         let idLoan = rent.map(id => id.loan_id)
         let updateLoan = await models.loans_items.findOne(
             {
@@ -125,7 +125,7 @@ loanController.loanUpdate = async (req, res) => {
 loanController.fullLoanList = async (req, res) => {
     try {
         let fullLoanList = await models.loans.findAll();
-        let activeLoans = fullLoanList.map(rent => rent.contentData)
+        let activeLoans = fullLoanList.map(rent => rent.dataValues)
         let loanIdentifiers = activeLoans.map(id => id.loan_id)
         let aggregateLoans = await models.loans_items.findAll(
             {

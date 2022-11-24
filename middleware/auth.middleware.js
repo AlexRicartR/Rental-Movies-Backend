@@ -30,9 +30,13 @@ const checkUserPermission = async (req, res, next) => {
     console.log(payload)
     let body = req.body;
     const locateUser = await models.users.findAll({ where: { email: body.email } })
+    console.log('Prueba de ************************ LOCATE USER ********************************************', locateUser)
     let dataUser = locateUser.map(user => user.contentData)
-    let userObject = dataUser.map(id => id.user_id)
-    if (payload.user_id === userObject[0] ) {
+    console.log('Prueba de ************************ DATA USER ********************************************', dataUser)
+    let userObject = dataUser.map(id => id.id_user)
+    console.log('Prueba de *************************** USER OBJECT *****************************************', userObject)
+
+    if (payload.id_user === userObject[0] ) {
         next()
     }else {
         res.send({message: "Token id does not match"})

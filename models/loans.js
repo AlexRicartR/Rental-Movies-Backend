@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       })
       Loan.belongsTo(models.users, {
         foreignKey: {
-          name: "user_id",
+          name: "id_user",
           allowNull: false
         }
       })
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    user_id: {
+    id_user: {
       type: DataTypes.INTEGER,
       allowNull: false
     }

@@ -54,7 +54,7 @@ userController.userPost = async (req, res) => {
                     {
                         name: body.name,
                         email: body.email,
-                        birthDate: body.birthDate,
+                        dateBirth: body.dateBirth,
                         password: hash,
                         id_usertype: body.id_usertype
 
@@ -86,7 +86,7 @@ userController.loginUser = async (req, res) => {
             } else {
                 const secret = process.env.JWT_SECRET || '';
                 const jwt = jsonwebtoken.sign({
-                    user_id: locateUser.user_id,
+                    id_user: locateUser.id_user,
                     email: locateUser.email,
                     created: Date.now(),
                     id_usertype: locateUser.id_usertype
@@ -110,8 +110,8 @@ userController.displayUser = async (req, res) => {
     const { email } = req.body
     try {
         const locateUser = await models.users.findAll({ where: { email: email } })
-        let dataUser = locateUser.map(user => user.contentData)
-        let userObject = dataUser.map(id => id.user_id)
+        let dataUser = locateUser.map(user => user.dataValues)
+        let userObject = dataUser.map(id => id.id_user)
         if (Number(id.id) === userObject[0]) {
             let user = await models.users.findOne({
                 where: { email: email }
@@ -131,17 +131,17 @@ userController.updatedUser = async (req, res) => {
         let id = req.params.id;
         let user = req.body;
         const locateUser = await models.users.findAll({ where: { email: user.email } })
-        let dataUser = locateUser.map(user => user.contentData)
-        let userObject = dataUser.map(id => id.user_id)
+        let dataUser = locateUser.map(user => user.dataValues)
+        let userObject = dataUser.map(id => id.id_user)
         if (Number(id) === userObject[0]) {
             let resp = await models.users.update(
                 {
                     name: user.name,
                     email: user.email,
-                    birthDate: user.birthDate,
+                    dateBirth: user.dateBirth
                 },
                 {
-                    where: { user_id: id }
+                    where: { id_user: id }
                 }
             )
             res.send({
@@ -161,7 +161,7 @@ userController.deleteUsers = async (req, res) => {
     try {
         let id = req.body
         let resp = await models.users.destroy({
-            where: { user_id: id.user_id }
+            where: { id_user: id.id_user }
         })
         if (resp == 1) {
             res.send("User succesfully deleted.")

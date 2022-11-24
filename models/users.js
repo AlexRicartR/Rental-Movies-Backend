@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.loans,
         {
           foreignKey: {
-            name: "user_id",
+            name: "id_user",
             allowNull: false
           }
         }
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    user_id: {
+    id_user: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
-    birthDate: DataTypes.DATEONLY,
+    dateBirth: DataTypes.DATEONLY,
     password: {
       type: DataTypes.STRING,
       allowNull: false

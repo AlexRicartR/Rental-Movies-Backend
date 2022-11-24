@@ -9,11 +9,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user_id: {
+      id_user: {
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
-          key: 'user_id'
+          key: 'id_user'
         }
       },
       createdAt: {
