@@ -5,6 +5,8 @@ let date = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date(
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('users', [
+
+    /// Check if more users would be needed
       {
         id_user: 1,
         name: "user",

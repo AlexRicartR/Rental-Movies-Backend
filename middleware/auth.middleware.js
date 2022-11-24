@@ -2,6 +2,8 @@ const jsonwebtoken = require("jsonwebtoken");
 const models = require('../models/index');
 
 const authBearerMiddleware = async (req, res, next) => {
+
+    /// Check above
     const { authorization } = req.headers;
     if (!authorization) {
         res.status(401).json({ message: "Login is required to access" });
