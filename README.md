@@ -30,13 +30,13 @@ Used technologies:
 
 ```sequelize db:create```
 
-![image](https://user-images.githubusercontent.com/114058505/203390504-c0d6f13f-da03-4e91-94cf-8ca0b62934a1.png)
+![image](https://user-images.githubusercontent.com/114058505/203861734-d7e14c07-12a9-458a-b642-d33d1b39acda.png)
 
 #### MIGRATING TABLES INTO OUR DATABASE
 
 ```sequelize db:migrate```
 
-![image](https://user-images.githubusercontent.com/114058505/203390883-c861d350-88c9-4e62-bce9-c1a874303901.png)
+![image](https://user-images.githubusercontent.com/114058505/203861751-1284744c-32dc-412a-83b4-eddae1981c59.png)
 
 #### CREATING THE INFORMATION TO BE CONTAINED IN THE TABLES OF OUR DATABASE
 
