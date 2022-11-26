@@ -24,7 +24,7 @@ Films.init({
       len: [1, 25]
     }
   },
-  rate: DataTypes.INTEGER,
+  rating: DataTypes.INTEGER,
   release_date: DataTypes.DATEONLY,
 
 }, {

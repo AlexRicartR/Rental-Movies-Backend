@@ -24,7 +24,7 @@ Series.init({
       len: [1, 25]
     }
   },
-  rate: DataTypes.INTEGER,
+  rating: DataTypes.INTEGER,
   in_theater: DataTypes.BOOLEAN,
   release_date: DataTypes.DATE,
 
