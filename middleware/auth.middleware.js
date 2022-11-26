@@ -30,7 +30,7 @@ const checkUserPermission = async (req, res, next) => {
     console.log(payload)
     let body = req.body;
     const locateUser = await models.users.findAll({ where: { email: body.email } })
-    let dataUser = locateUser.map(user => user.contentData)
+    let dataUser = locateUser.map(user => user.dataValues)
     let userObject = dataUser.map(id => id.id_user)
 
     if (payload.id_user === userObject[0] ) {

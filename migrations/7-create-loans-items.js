@@ -3,12 +3,6 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('loans_items', {
-      loan_id_item: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
       item_id: {
         type: Sequelize.INTEGER,
         references: {
@@ -23,8 +17,6 @@ module.exports = {
           key: 'loan_id'
         },
       },
-      loanIdLoan: Sequelize.INTEGER,
-      itemIdItem: Sequelize.INTEGER
     });
   },
   async down(queryInterface, Sequelize) {

@@ -1,45 +1,69 @@
+const { sequelize } = require('../models');
 const models = require('../models/index');
 
 const loanController = {};
 
 loanController.newLoan = async (req, res) => {
-    let id = req.params
+    const id_user = req.auth.id_user;
     try {
-        const { email } = req.body
-        const locateUser = await models.users.findAll({ where: { email: email } })
-        let dataUser = locateUser.map(user => user.dataValues)
-        let userObject = dataUser.map(id => id.id_user)
-        let loan = await models.loans.create(
-            {
-                id_user: userObject[0]
-            }
-        )
-        if (Number(id.id) === userObject[0]) {
-            let loanId = loan.dataValues.loan_id;
-            const recentLoan = await models.loans.findAll({ where: { loan_id: loanId } })
-            let loanMap = recentLoan.map(loan => loan.dataValues)
-            let idLoan = loanMap.map(id => id.loan_id)
-            let item = req.body;
-            let itemsArray = item.itemIdItem;
-            let loanItems = [];
-            for (singleitem of itemsArray) {
-                let itemLoan = await models.loans_items.create({
-                    itemIdItem: singleitem,
-                    loan_id: idLoan[0]
-                })
-                loanItems.push(itemLoan);
-            }
-            res.send({
-                Loan: recentLoan,
-                loanItems: loanItems
-            })
+        const { items_id } = req.body;
+        const resp = await models.loan.create({
+            id_user: id_user,
+        })
+        if (items_id) {
+            items_id.forEach(async (item_id) => {
+                await sequelize.query(`INSERT INTO loans_items(item_id, loan_id) VALUES (${item_id},${resp.loan_id})`);
+            });
+            res.send('Loan created');
         } else {
-            res.send({ message: 'Hey buddy! It seems that you are trying to loan an id that is not matching your account.' })
+            throw new Error('Item error');
         }
+
     } catch (error) {
-        res.send(error)
+        res.send(error);
     }
-};
+}
+
+
+
+// loanController.newLoan = async (req, res) => {
+//     let id = req.params
+//     try {
+//         const { email } = req.body
+//         const locateUser = await models.users.findAll({ where: { email: email } })
+//         let dataUser = locateUser.map(user => user.dataValues)
+//         let userObject = dataUser.map(id => id.id_user)
+//         let loan = await models.loans.create(
+//             {
+//                 id_user: userObject[0]
+//             }
+//         )
+//         if (Number(id.id) === userObject[0]) {
+//             let loanId = loan.dataValues.loan_id;
+//             const recentLoan = await models.loans.findAll({ where: { loan_id: loanId } })
+//             let loanMap = recentLoan.map(loan => loan.dataValues)
+//             let idLoan = loanMap.map(id => id.loan_id)
+//             let item = req.body;
+//             let itemsArray = item.itemIdItem;
+//             let loanItems = [];
+//             for (singleitem of itemsArray) {
+//                 let itemLoan = await models.loans_items.create({
+//                     itemIdItem: singleitem,
+//                     loan_id: idLoan[0]
+//                 })
+//                 loanItems.push(itemLoan);
+//             }
+//             res.send({
+//                 Loan: recentLoan,
+//                 loanItems: loanItems
+//             })
+//         } else {
+//             res.send({ message: 'Hey buddy! It seems that you are trying to loan an id that is not matching your account.' })
+//         }
+//     } catch (error) {
+//         res.send(error)
+//     }
+// };
 
 loanController.loansUser = async (req, res) => {
     let idUser = req.params;
