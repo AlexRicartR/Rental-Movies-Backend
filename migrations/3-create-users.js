@@ -9,39 +9,32 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
-      },
-      email: {
+      user_email: {
         type: Sequelize.STRING,
-        unique: true
+        allowNull: false,
+        unique:true
       },
-      dateBirth: {
-        type: Sequelize.DATEONLY
-      } ,
-      password: {
+      user_password: {
         type: Sequelize.STRING,
-        allowNull: false
-      },
-      id_usertype: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "usertypes",
-          key: "id_usertype"
-        },
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-      },
-      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
       },
-      updatedAt: {
+      name_user: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.DATE
+      },
+      surname_user: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      is_admin: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
       }
+      
     });
+    
   },
+  
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('users');
   }

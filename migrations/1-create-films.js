@@ -9,19 +9,21 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       genre: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      item_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "items",
-          key: "item_id"
-        },
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
+      rate: {
+        type: Sequelize.INTEGER
       },
-      // itemIdItem: Sequelize.INTEGER
+      release_date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      }
     });
   },
   async down(queryInterface, Sequelize) {

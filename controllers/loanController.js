@@ -3,27 +3,27 @@ const models = require('../models/index');
 
 const loanController = {};
 
-loanController.newLoan = async (req, res) => {
-    const id_user = req.auth.id_user;
-    try {
-        const { items_id } = req.body;
-        const resp = await models.loan.create({
-            id_user: id_user,
-        })
-        if (items_id) {
-            items_id.forEach(async (item_id) => {
-                await sequelize.query(`INSERT INTO loans_items(item_id, loan_id) VALUES (${item_id},${resp.loan_id})`);
-            });
-            res.send('Loan created');
-        } else {
-            throw new Error('Item error');
-        }
+/////////////// Create new loan
 
-    } catch (error) {
+OrderController.registerOrder = async (req, res) => {
+
+    try {
+        let data = req.body;
+        let resp = await Order.create({
+
+            user_id: data.user_id,
+            loan_date: data.loan_date,
+            return_date: data.return_date,
+            serie_id: data.serie_id,
+            film_id: data.film_id
+        })
+
+        res.send(resp)
+    }
+    catch (error) {
         res.send(error);
     }
-}
-
+};
 
 
 // loanController.newLoan = async (req, res) => {

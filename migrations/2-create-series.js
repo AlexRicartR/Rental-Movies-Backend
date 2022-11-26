@@ -9,20 +9,24 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      next_episode: {
-        type: Sequelize.DATEONLY
+      title: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      permission: {
-        type: Sequelize.BOOLEAN
+      genre: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      item_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "items",
-          key: "item_id"
-        },
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
+      rate: {
+        type: Sequelize.INTEGER
+      },
+      in_theater: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
+      release_date: {
+        type: Sequelize.DATE,
+        allowNull: false,
       }
     });
   },
