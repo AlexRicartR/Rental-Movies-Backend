@@ -54,7 +54,7 @@ loanController.updateLoan = async (req, res) => {
         res.send(error);
     }
 };
-loanController.deleteOrder = async (req, res) => {
+loanController.deleteLoan = async (req, res) => {
 
     try {
         let data = req.params;

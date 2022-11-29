@@ -21,7 +21,7 @@ SerieController.getSerieById = async (req, res) => {
     }
 }
 
-SerieController.getSerieByTittle = async (req, res) => {
+SerieController.getSerieByTitle = async (req, res) => {
     try {
         let title = req.params.title;
         let resp = await Serie.findAll({
@@ -34,7 +34,7 @@ SerieController.getSerieByTittle = async (req, res) => {
     }
 }
 
-SerieController.get7dUpcoming = async (req, res) => {
+SerieController.getUpcomingSeries = async (req, res) => {
     const currentDate = new Date();
     const nextWeek = new Date();
 
@@ -70,7 +70,7 @@ SerieController.getTopRatedSeries = async (req, res) => {
 
     try {
         let resp = await Serie.findAll({
-            where: { rating: [8 - 10] }
+            where: { rating: [6 - 10] }
         })
         res.send(resp);
     } catch (error) {
