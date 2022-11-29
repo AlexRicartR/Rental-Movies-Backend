@@ -1,175 +1,137 @@
-const models = require('../models/index');
-const bcrypt = require('bcrypt');
+const User = require('../models/users')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
+const authConfig = require('../config/auth');
 
-/// Check last video regarding jsonwebtoken
+const UserController = {};
+const generateToken = (user) => {
+    return jwt.sign({ email: user.email }, authConfig.secret, {
+        expiresIn: authConfig.expires
+    })
+}
 
-const jsonwebtoken = require("jsonwebtoken");
-const userController = {};
-
-/* Below const is intended to be called from auth.service. 
-**Internal comment: Double check if it does not conflict. */
-
-const {
-    isEmailOk,
-    isPassOk,
-    /// ** Internal comment: Check notes 
-} = require('../services/auth.service');
-
-userController.getUser1 = async (req, res) => {
+UserController.getUsers = async (req, res) => {
     try {
-        let resp = await models.users.findAll()
-        res.send(resp)
-
-    } catch (err) {
-        res.send(err)
-    }
-
-};
-
-/// Below function is inteded to check first if password is valid and secondly if the email is valid.
-
-userController.userPost = async (req, res) => {
-    const body = req.body;
-    try {
-        isPassOk(body.password);
-    } catch (error) {
-        console.error(error);
-        res.status(400).json({ message: "Ooops! Wrong password: " + error.message });
-        return;
-    }
-    try {
-        isEmailOk(body.email);
-    } catch (error) {
-        console.error(error);
-        res.status(400).json({ message: "Ooops! Wrong email: " + error.message });
-        return;
-    }
-
-    /// Following the example as stated in npmjs.com/package/bcrypt 
-    try {
-        const basicPass = body.password
-        bcrypt.genSalt(function async(err, salt) {
-            bcrypt.hash(basicPass, salt, async function (err, hash) {
-                const createdUser = await models.users.create(
-                    {
-                        name: body.name,
-                        email: body.email,
-                        dateBirth: body.dateBirth,
-                        password: hash,
-                        id_usertype: body.id_usertype
-
-                    }
-                )
-                res.send(createdUser)
+        User.findAll()
+            .then(resp => {
+                res.send(resp);
             });
+    } catch (error) {
+        res.send(error);
+    }
+}
+
+UserController.getUserById = async (req, res) => {
+    try {
+        let id_user = req.params.id_user;
+        User.findByPk(id_user)
+            .then(resp => {
+                res.send(resp);
+            });
+
+    } catch (error) {
+        res.send(error);
+    }
+}
+
+UserController.registerUser = async (req, res) => {
+    try {
+        let data = req.body;
+        let password = bcrypt.hashSync(data.user_password, Number.parseInt(authConfig.rounds || 10));
+        let user = await User.create({
+            email: data.email,
+            user_password: password,
+            username: data.username,
+            surname_user: data.surname_user,
+            admin_status:  data.admin_status || false
+
+        })
+        res.send({
+            resp: {
+                user: data.email,
+                token: generateToken(user)
+            },
+            message: 'User created successfully'
         });
-    } catch (err) {
-        res.send(err)
+
+    } catch (error) {
+        res.send(error)
     }
-};
-
-userController.loginUser = async (req, res) => {
-    const { email, password } = req.body;
-    const locateUser = await models.users.findOne({ where: { email: email } });
-    if (!locateUser) {
-        return res.status(404).json({ message: "Wrong password and/or email address" })
-    }
-
-    /// Following example
-
-    const hashedPassword = () => {
-        const loginPassword = password;
-        bcrypt.compare(loginPassword, locateUser.password, function (err, result) {
-
-            if (!result) {
-                return res.send({ message: "Wrong password and/or email address" });
-            } else {
-                const secret = process.env.JWT_SECRET || '';
-                const jwt = jsonwebtoken.sign({
-                    id_user: locateUser.id_user,
-                    email: locateUser.email,
-                    created: Date.now(),
-                    id_usertype: locateUser.id_usertype
-                }, secret);
-                return res.send({
-                    message: "You have been logged in successfully",
-                    jwt: jwt,
-                });
-            }
-        });
-    }
-    hashedPassword()
-
 
 }
 
-
-
-userController.displayUser = async (req, res) => {
-    let id = req.params;
-    const { email } = req.body
+UserController.loginUser = async (req, res) => {
     try {
-        const locateUser = await models.users.findAll({ where: { email: email } })
-        let dataUser = locateUser.map(user => user.dataValues)
-        let userObject = dataUser.map(id => id.id_user)
-        if (Number(id.id) === userObject[0]) {
-            let user = await models.users.findOne({
-                where: { email: email }
-            })
-            res.send(user)
-        } else {
-            res.send({ message: 'Hey buddy! It seems that you are trying to perform a search that does not match the route id.' })
-        }
+        let data = req.body
 
-    } catch (err) {
-        res.send(err)
+        const user = await User.findOne({ where: { email: data.email } })
+        const validPassword = await bcrypt.compareSync(data.user_password, user.user_password)
+
+        if (!validPassword) {
+            throw new Error("Invalid username or password")
+        }
+        res.send({
+            resp: {
+                user: data.email,
+                token: generateToken(user)
+            },
+            message: 'Login successful'
+        });
+    }
+
+    catch (error) {
+        res.status(401).send({
+            message: "Invalid email/password"
+        });
+    }
+
+}
+
+UserController.updateUser = async (req, res) => {
+    try {
+
+        let data = req.body;
+        if (data.user_password) {
+            data.user_password = bcrypt.hashSync(data.user_password, Number.parseInt(authConfig.rounds || 10));
+        }
+        let user = await User.update(
+            {
+                "user_password": data.user_password,
+                "username": data.username,
+                "surname_user": data.surname_user,
+
+            }, {
+            where: { id_user: req.params.id_user }
+
+        });
+        res.send({
+            token: generateToken(user),
+            message: 'User updated successfully.'
+        })
+
+    } catch (error) {
+        res.send(error);
     }
 };
 
-userController.updatedUser = async (req, res) => {
-    try {
-        let id = req.params.id;
-        let user = req.body;
-        const locateUser = await models.users.findAll({ where: { email: user.email } })
-        let dataUser = locateUser.map(user => user.dataValues)
-        let userObject = dataUser.map(id => id.id_user)
-        if (Number(id) === userObject[0]) {
-            let resp = await models.users.update(
-                {
-                    name: user.name,
-                    email: user.email,
-                    dateBirth: user.dateBirth
-                },
-                {
-                    where: { id_user: id }
-                }
-            )
-            res.send({
-                resp: resp,
-                message: 'User successfully updated'
-            })
-        } else {
-            res.send({ message: 'Hey buddy! It appears that you are attempting to modify a route that does not apply to your account.' })
-        }
+UserController.deleteUser = async (req, res) => {
 
-    } catch (err) {
-        res.send(err)
-    }
-};
-
-userController.deleteUsers = async (req, res) => {
     try {
-        let id = req.body
-        let resp = await models.users.destroy({
-            where: { id_user: id.id_user }
+
+        let data = req.params;
+        let resp = await User.destroy({
+            where: { id_user: data.id_user }
         })
         if (resp == 1) {
-            res.send("User succesfully deleted.")
+            res.send('User has been deleted');
         } else {
-            res.send("Unable to delete user.")
+            res.send("User hasn't been deleted");
         }
-    } catch (err) {
-        res.send(err)
+
+    } catch (error) {
+        res.send(error);
     }
+
 }
-module.exports = userController
+
+module.exports = UserController;

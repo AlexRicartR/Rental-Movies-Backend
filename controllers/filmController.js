@@ -1,88 +1,113 @@
+const Film = require('../models/films');
+const FilmController = {};
 
-/// Double check if there is a typo between lines 47 and 57
-
-const models = require('../models/index');
-
-const filmController = {};
-
-filmController.getFilm1 = async (req, res) => {
+FilmController.getFilms = async (req, res) => {
+    Film.findAll()
+        .then(resp => {
+            res.send(resp);
+        });
+};
+FilmController.getFilmById = async (req, res) => {
     try {
-        let resp = await models.items.findAll({
-            attributes: {
-                exclude: ['createdAt', 'updatedAt', 'itemIdItem' ]
-            },
-            where: { type: 'Film' },
-            order: [
-                ["rating", 'DESC']
-            ],
-        }) 
+        let id_film = req.params.id;
+        Film.findByPk(id_film)
+            .then(resp => {
+                res.send(resp);
+            });
+    } catch (error) {
+        res.send(error);
+    }
+}
+FilmController.getFilmByTitle = async (req, res) => {
+
+    try {
+        let title = req.params.title;
+        let resp = await Film.findAll({
+            where: { title: title }
+        })
         res.send(resp);
-    } catch (err) {
-        res.send(err) 
+    } catch (error) {
+        res.send(error);
     }
 
-};
+}
+FilmController.getFilmsByGenre = async (req, res) => {
 
-filmController.getFilm2 = async (req, res) => {
     try {
-        let id = req.params.id 
-        let resp = await models.films.findAll({
-            attributes: {
-                exclude: ['createdAt', 'updatedAt', 'itemIdItem']
-            },
-            where: { id_film: id },
+        let genre = req.params.genre;
+        let resp = await Film.findAll({
+            where: { genre: genre }
+        })
+        res.send(resp);
+    } catch (error) {
+        res.send(error);
+    }
+};
+FilmController.getTopRatedFilms = async (req, res) => {
+    try {
+        let resp = await Film.findAll({
             include: {
-                model: models.items,
-                attributes: ['name']
+                model: Film,
+                where: {
+                    rating: [8 - 10]
+                }
             }
-
-        })
+        });
         res.send(resp);
-    } catch (err) {
-        res.send(err)
+    } catch (error) {
+        res.send(error);
     }
-
-};
-
-filmController.getFilm3 = async (req, res) => {
+}
+FilmController.registerFilm = async (req, res) => {
     try {
-        let name = req.params.name;
-        let resp = await models.items.findAll({
-            attributes: {
-                exclude: ['createdAt', 'updatedAt', 'itemIdItem']
-            },
-            where: {
-                name: name,
-                type: 'Film'
-            }
-
+        let data = req.body;
+        let resp = await Film.create({
+            title: data.title,
+            genre: data.genre,
+            rating: data.rating,
+            release_date: data.release_date
         })
-        res.send(resp);
-    } catch (err) {
-        res.send(err)
+        res.send(resp)
     }
-
+    catch (error) {
+        res.send(error);
+    }
 };
+FilmController.updateFilm = async (req, res) => {
 
-filmController.getFilm4 = async (req, res) => {
     try {
-        let genreM = req.params.genreM;
-        let resp = await models.films.findAll({
-            attributes: {
-                exclude: ['createdAt', 'updatedAt', 'itemIdItem']
-            },
-            where: { genre: genreM },
-            include: {
-                model: models.items,
-                attributes: ['name', 'rating', 'release_date']
-            }
+        let data = req.body;
+        let resp = await Film.update({
 
+            title: data.title,
+            genre: data.genre,
+            rating: data.rating,
+            release_date: data.release_date
+
+        }, {
+            where: { id_film: req.params.id_film }
+        });
+        res.send({
+            message: 'Film updated correctly'
         })
-        res.send(resp);
-    } catch (err) {
-        res.send(err)
+    } catch (error) {
+        res.send(error);
     }
-
+};
+FilmController.deleteFilm = async (req, res) => {
+    try {
+        let data = req.params;
+        let resp = await Film.destroy({
+            where: { id_film: data.id_film }
+        })
+        if (resp == 1) {
+            res.send('Film has been deleted');
+        } else {
+            res.send("Unable to delete film");
+        }
+    } catch (error) {
+        res.send(error);
+    }
 };
 
-module.exports = filmController
+module.exports = FilmController;

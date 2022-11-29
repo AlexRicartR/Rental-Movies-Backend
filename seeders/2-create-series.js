@@ -118,7 +118,6 @@ module.exports = {
         genre: "Suspense"
       }
     ], {});
-
   },
 
   async down(queryInterface, Sequelize) {

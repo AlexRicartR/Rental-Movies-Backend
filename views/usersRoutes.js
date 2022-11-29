@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
-const { authBearerMiddleware, isUserTypeAdmin, checkUserPermission } = require('../middleware/auth.middleware')
-
-router.get('/displayUser', userController.getUser1);
-router.post('/createUser', userController.userPost);
-router.post('/loginUser', userController.loginUser);
-router.get('/showYourUser/:id', authBearerMiddleware, checkUserPermission, userController.displayUser);
-router.put('/updateUser/:id', authBearerMiddleware, checkUserPermission, userController.updatedUser);
-router.delete('/deleteUser', authBearerMiddleware, checkUserPermission, isUserTypeAdmin, userController.deleteUsers);
+const UserController = require('../controllers/UserController');
+const AuthController = require('../controllers/authController');
 
 
-module.exports = router
+router.post('/register', AuthController.authRegisterController, UserController.registerUser)
+router.post('/login', UserController.loginUser);
+router.get('/getAll', UserController.getUsers);
+router.get('/getById/:id_user', UserController.getUserById);
+router.put('/update/:id_user', UserController.updateUser)
+router.delete('/delete/:id_user', AuthController.assertIsAdmin, UserController.deleteUser)
+
+module.exports = router;

@@ -1,89 +1,144 @@
-const models = require('../models/index');
+const Serie = require('../models/series');
+const { Op } = require("sequelize");
+const SerieController = {};
 
-const serieController = {};
+SerieController.getSeries = async (req, res) => {
+    Serie.findAll()
+        .then(resp => {
+            res.send(resp);
+        });
+};
 
-
-serieController.getSerie1 = async (req, res) => {
+SerieController.getSerieById = async (req, res) => {
     try {
-        let resp = await models.items.findAll({
-            where: { type: 'Serie' },
-            order: [
-                ["rating", 'DESC']
-            ]
+        let id_serie = req.params.id_serie
+        Serie.findByPk(id_serie)
+            .then(resp => {
+                res.send(resp)
+            })
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+SerieController.getSerieByTittle = async (req, res) => {
+    try {
+        let title = req.params.title;
+        let resp = await Serie.findAll({
+            where: { title: title }
+        });
+        res.send(resp);
+
+    } catch (error) {
+        res.send(error);
+    }
+}
+
+SerieController.get7dUpcoming = async (req, res) => {
+    const currentDate = new Date();
+    const nextWeek = new Date();
+
+    nextWeek.setDate(nextWeek.getDate() + 7)
+    try {
+        let resp = await Serie.findAll({
+            where: {
+                release_date: {
+                    [Op.lte]: nextWeek,
+                    [Op.gte]: currentDate
+                }
+            }
+        })
+        res.send(resp)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+SerieController.getTheaterSeries = async (req, res) => {
+
+    try {
+        let resp = await Serie.findAll({
+            where: { in_theater: true }
         })
         res.send(resp);
-    } catch (err) {
-        res.send(err)
+    } catch (error) {
+        res.send(error);
     }
+}
 
-};
+SerieController.getTopRatedSeries = async (req, res) => {
 
-serieController.getSerie2 = async (req, res) => {
     try {
-        let id = req.params.id
-        let resp = await models.series.findAll(
-            {
-                where: { id_serie: id },
-                include: {
-                    model: models.items,
-                    attributes: ['name']
-                }
-            }
-        )
+        let resp = await Serie.findAll({
+            where: { rating: [8 - 10] }
+        })
+        res.send(resp);
+    } catch (error) {
+        res.send(error);
+    }
+}
+
+SerieController.registerSerie = async (req, res) => {
+
+    try {
+        let data = req.body;
+        let resp = await Serie.create({
+
+            title: data.title,
+            genre: data.genre,
+            rating: data.rating,
+            in_theater: data.in_theater,
+            release_date: data.release_date
+        })
         res.send(resp)
-    } catch (err) {
-        res.send(err)
     }
-
+    catch (error) {
+        res.send(error);
+    }
 };
 
-serieController.getSerie3 = async (req, res) => {
+//Update Existing Serie
+
+SerieController.updateSerie = async (req, res) => {
+
     try {
-        let name = req.params.name;
-        let resp = await models.items.findAll(
-            {
-                where: {
-                    name: name,
-                    type: 'Serie'
-                }
-            }
-        )
-        res.send(resp);
-    } catch (err) {
-        res.send(err)
+        let data = req.body;
+        let resp = await Serie.update({
+
+            title: data.title,
+            genre: data.genre,
+            rating: data.rating,
+            in_theater: data.in_theater,
+            release_date: data.release_date
+        }, {
+            where: { id_serie: req.params.id_serie }
+        });
+        res.send({
+            message: 'Serie updated correctly'
+        })
+    } catch (error) {
+        res.send(error);
     }
-
-};
-const sequelize = require('../db/db')
-const { Sequelize } = require('sequelize')
-
-/* Functional requirement: 
-Get series that will have an episode broadcasted in the following 7 days. */
-
-let date = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate() + 7}`  
-const { Op } = require("sequelize");
-
-serieController.getSerie4 = async (req, res) => {
-    let resp = await sequelize.query("SELECT * FROM railway.series where next_episode BETWEEN (CURDATE()) and (CURDATE() + INTERVAL 7 DAY)");
-    res.send(resp);
 };
 
-serieController.getSerie5 = async (req, res) => {
+//Delete One Serie By Id
+
+SerieController.deleteSerie = async (req, res) => {
     try {
-        let resp = await models.series.findAll(
-            {
-                where: { permission: true },
-                include: {
-                    model: models.items,
-                    attributes: ['name']
-                }
-            }
-        )
-        res.send(resp);
-    } catch (err) {
-        res.send(err)
+        let data = req.params;
+        let resp = await Serie.destroy({
+            where: { id_serie: data.id_serie }
+        })
+        if (resp == 1) {
+            res.send('Serie has been deleted');
+        } else {
+            res.send("Serie hasn't been deleted");
+        }
+
+    } catch (error) {
+        res.send(error);
     }
 
 };
 
-module.exports = serieController;
+module.exports = SerieController;

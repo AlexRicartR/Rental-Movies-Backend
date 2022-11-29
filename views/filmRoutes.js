@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const filmController = require('../controllers/filmController');
+const FilmController = require('../controllers/filmController');
+const authController = require ('../controllers/authController'); ///////////////////////////// REVISAR /////////////////////////
 
-
-// GET
-router.get('/topRatedFilm', filmController.getFilm1 );
-router.get('/filmById/:id', filmController.getFilm2);
-router.get('/filmByName/:name', filmController.getFilm3);
-router.get('/filmByGenre/:genreM', filmController.getFilm4);
-
+router.post('/registerFilm',authController.assertIsAdmin, FilmController.registerFilm);
+router.get('/getAll',FilmController.getFilms);
+router.get('/getTopRated', FilmController.getTopRatedFilms);
+router.get('/getById/:id' , FilmController.getFilmById);
+router.get('/getByTittle/:title', FilmController.getFilmByTitle);
+router.get('/getByGenre/:genre', FilmController.getFilmsByGenre);
+router.put('/update/:id_film',authController.assertIsAdmin, FilmController.updateFilm);
+router.delete('/delete/:id_film', authController.assertIsAdmin,FilmController.deleteFilm);
 
 module.exports = router;

@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user_email: {
+      email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique:true
@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      name_user: {
+      username: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -26,7 +26,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      is_admin: {
+      admin_status: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       }

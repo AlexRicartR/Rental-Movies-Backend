@@ -6,27 +6,21 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('users', [
       {
-        id_user: 1,
-        name: "user",
-        email: "user@user.com",
-        dateBirth: "1991-05-04",
-        password: "$2a$12$Jl9oCqWA8Lws7MQCtOjnwevbnMfB6eDc5uhO0bPIt1EGSN.ai.Woe",
-        id_usertype: 2,
-        updatedAt: date,
-        createdAt: date
-      },
-      // User password: Bootcamp2022
-      {
         id_user: 2,
-        name: "admin",
+        username: "user",
+        surname_user: "surname",
+        email: "user@user.com",
+        user_password: "$2b$10$LM91Mno9DN0Rn1IQve/younFFjVX7EI5wvKNXUjvBILvj0K2s3aE.",
+        admin_status: false
+      },
+      {
+        id_user: 3,
+        username: "admin",
+        surname_user: "adminsurname",
         email: "admin@admin.com",
-        dateBirth: "1992-11-16",
-        password: "$2a$12$Jl9oCqWA8Lws7MQCtOjnwevbnMfB6eDc5uhO0bPIt1EGSN.ai.Woe",
-        id_usertype: 1,
-        updatedAt: date,
-        createdAt: date
+        user_password: "$2b$10$LM91Mno9DN0Rn1IQve/younFFjVX7EI5wvKNXUjvBILvj0K2s3aE.",
+        admin_status: true
       }
-      // Admin password: Bootcamp2022
     ], {});
   },
 
